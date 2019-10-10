@@ -1,0 +1,68 @@
+//
+//  SecondViewController.swift
+//  viewStateChangeMethod
+//
+//  Created by 김광준 on 2019/10/10.
+//  Copyright © 2019 VincentGeranium. All rights reserved.
+//
+
+import UIKit
+
+class SecondViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        print("Second ViewController의 view가 메모리에 로드 됨")
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        print("Second ViewController의 view가 화면에 보여질 예정")
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        print("Second ViewController의 view가 화면에 보여짐")
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        print("Second ViewController의 view가 화면에서 사라질 예정")
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        print("Second ViewController의 view가 화면에서 사라짐")
+        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        print("Second ViewController의 view가 subview를 레이아웃 하려함")
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        print("Second ViewController의 view가 subview를 레이아웃 함")
+        
+    }
+    
+    @IBAction func didTappedDismissBtn(_ sender: UIButton) {
+        
+        dismiss(animated: true, completion: nil)
+        
+    }
+
+}
