@@ -140,7 +140,6 @@ class FirstViewController: UIViewController {
         
         signInBtn.setTitle("Sign In", for: .normal)
         signInBtn.setTitleColor(.blue, for: .normal)
-        signInBtn.backgroundColor = .black
         
         let guide = view.safeAreaLayoutGuide
         
@@ -182,8 +181,6 @@ class FirstViewController: UIViewController {
         signUpBtn.setTitle("Sign Up", for: .normal)
         signUpBtn.setTitleColor(.red, for: .normal)
         
-        signUpBtn.backgroundColor = .black
-        
         let guide = view.safeAreaLayoutGuide
         
         let signUpBtnTop: NSLayoutConstraint
@@ -208,7 +205,11 @@ class FirstViewController: UIViewController {
     }
     
     @objc private func didTappedSignUpBtn(_ sender: UIButton) {
-        print("Sign Up 버튼 정상 동작")
+        
+        let secondVC = SecondViewController()
+        
+        self.present(secondVC, animated: true, completion: nil)
+        
     }
     
     
