@@ -151,7 +151,8 @@ class FirstViewController: UIViewController {
         let signInBtnTop: NSLayoutConstraint
         signInBtnTop = signInBtn.topAnchor.constraint(equalTo: pwTextField.bottomAnchor, constant: 20)
         
-        let signInBtnLeading = signInBtn.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 80)
+        let signInBtnLeading: NSLayoutConstraint
+        signInBtnLeading = signInBtn.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 80)
         
         let signInBtnWidth: NSLayoutConstraint
         signInBtnWidth = signInBtn.widthAnchor.constraint(equalToConstant: signInBtnWidthValue)
@@ -164,6 +165,12 @@ class FirstViewController: UIViewController {
         signInBtnWidth.isActive = true
         signInBtnHeight.isActive = true
         
+        signInBtn.addTarget(self, action: #selector(didTappedSignInBtn(_:)), for: .touchUpInside)
+        
+    }
+    
+    @objc  private func didTappedSignInBtn(_ sender: UIButton) {
+        print("Sign In 버튼 정상 동작")
     }
     
     private func addSignUpBtn() {
@@ -179,28 +186,29 @@ class FirstViewController: UIViewController {
         
         let guide = view.safeAreaLayoutGuide
         
-        let signUpBtnWidthValue = (view.bounds.size.width - (view.bounds.size.width - 100))
-        
-        let signUpBtnHeightValue = (view.bounds.size.height - (view.bounds.size.height - 34))
-        
-        let signUpBtnLeadingValue = (view.bounds.size.width - (view.bounds.size.width - 40))
-        
         let signUpBtnTop: NSLayoutConstraint
         signUpBtnTop = signUpBtn.topAnchor.constraint(equalTo: pwTextField.bottomAnchor, constant: 20)
         
-        let signUpBtnLeading = signUpBtn.leadingAnchor.constraint(equalTo: signInBtn.trailingAnchor, constant: signUpBtnLeadingValue)
+        let signUpBtnTrailing: NSLayoutConstraint
+        signUpBtnTrailing = signUpBtn.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -80)
         
         let signUpBtnWidth: NSLayoutConstraint
-        signUpBtnWidth = signUpBtn.widthAnchor.constraint(equalToConstant: signUpBtnWidthValue)
+        signUpBtnWidth = signUpBtn.widthAnchor.constraint(equalTo: signInBtn.widthAnchor, multiplier: 1.0)
         
         let signUpBtnHeight: NSLayoutConstraint
-        signUpBtnHeight = signUpBtn.heightAnchor.constraint(equalToConstant: signUpBtnHeightValue)
+        signUpBtnHeight = signUpBtn.heightAnchor.constraint(equalTo: signInBtn.heightAnchor, multiplier: 1.0)
         
         signUpBtnTop.isActive = true
-        signUpBtnLeading.isActive = true
+        signUpBtnTrailing.isActive = true
         signUpBtnWidth.isActive = true
         signUpBtnHeight.isActive = true
         
+        signUpBtn.addTarget(self, action: #selector(didTappedSignUpBtn(_:)), for: .touchUpInside)
+        
+    }
+    
+    @objc private func didTappedSignUpBtn(_ sender: UIButton) {
+        print("Sign Up 버튼 정상 동작")
     }
     
     
