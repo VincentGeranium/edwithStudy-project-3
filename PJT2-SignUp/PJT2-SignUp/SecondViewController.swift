@@ -42,7 +42,9 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         secondVCImgView.backgroundColor = .lightGray
         
-        secondVCImgView.contentMode = .scaleAspectFit
+        secondVCImgView.contentMode = .scaleToFill
+        
+        
         
         let secondImgViewTop: NSLayoutConstraint
         secondImgViewTop = secondVCImgView.topAnchor.constraint(equalTo: guide.topAnchor, constant: 20)
@@ -71,6 +73,22 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     @objc func didTappedImgView(_ sender: UIImageView) {
         self.present(self.imgPicker, animated: true, completion: nil)
+    }
+    
+    // 이미지 피커 취소시
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    // 이미지 피커를 이용하여 이미지를 선택했을 때
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let originalImg: UIImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            
+            self.secondVCImgView.image = originalImg
+        }
+        
+        self.dismiss(animated: true, completion: nil)
     }
 
 }
