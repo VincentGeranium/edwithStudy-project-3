@@ -120,7 +120,8 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     // 이미지 피커를 이용하여 이미지를 선택했을 때
     // MARK: - imagePickerController
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let originalImg: UIImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+        // 이미지피커에서 이미지를 골라 편집 가능하게(picker.allowsEditing = true) 했으므로 그 편집된 이미지(UIImagePickerController.InfoKey.editedImage)를 가져오게 만듦
+        if let originalImg: UIImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             self.secondVCImgView.image = originalImg
         }
         self.dismiss(animated: true, completion: nil)
