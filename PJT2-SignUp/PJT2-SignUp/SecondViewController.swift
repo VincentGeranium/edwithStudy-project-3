@@ -8,10 +8,32 @@
 
 import UIKit
 
-class SecondViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SecondViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate {
     
     // MARK: - secondVCImgView
     let secondVCImgView = UIImageView()
+    
+    // MARK: - nextButton
+    lazy var nextBtn: UIButton = {
+        let nextButton: UIButton = UIButton()
+        nextButton.setTitle("다음", for: .normal)
+        nextButton.setTitle("다음", for: .disabled)
+        nextButton.setTitleColor(.red, for: .normal)
+        nextButton.setTitleColor(.lightGray, for: .disabled)
+        nextButton.backgroundColor = .lightGray
+        nextButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        return nextButton
+    }()
+    
+    // MARK: - cancelButton
+    lazy var cancelBtn: UIButton = {
+        let cancelButton: UIButton = UIButton()
+        cancelButton.backgroundColor = .red
+        cancelButton.setTitle("취소", for: .normal)
+        cancelButton.setTitleColor(.blue, for: .normal)
+        cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        return cancelButton
+    }()
     
     // MARK: - imgPicker
     lazy var imgPicker: UIImagePickerController = {
@@ -28,7 +50,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         let id: UITextField = UITextField()
         id.placeholder = "ID"
         id.borderStyle = .roundedRect
-       return id
+        return id
     }()
     
     // MARK: - passwordTextField
@@ -36,7 +58,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         let password: UITextField = UITextField()
         password.placeholder = "Password"
         password.borderStyle = .roundedRect
-       return password
+        return password
     }()
     
     // MARK: - checkPasswordTextField
@@ -53,13 +75,49 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         yellowTextView.backgroundColor = .yellow
         return yellowTextView
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.backgroundColor = .white
         
+        
+        
+        
+        tapGesture()
+        textFieldsDelegate()
         addViewsWithCodeInSecondVC()
+        
+    }
+    
+    // MARK: - textFieldsDelegate
+    private func textFieldsDelegate() {
+        idTextField.delegate = self
+        passwordTextField.delegate = self
+        checkPasswordTextField.delegate = self
+    }
+    
+    // MARK: - textFieldShouldReturn
+    /// when user tapped return key the keyboard will be hidden
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
+    }
+    
+    // MARK: - tapGesture
+    /// when tapped view the keyboard will be hidden
+    private func tapGesture() {
+        
+        let tapGesture: UITapGestureRecognizer = UITapGestureRecognizer()
+        tapGesture.delegate = self
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    // MARK: - gestureRecognizer
+    // endEditing
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        self.view.endEditing(true)
+        return true
     }
     
     private func addViewsWithCodeInSecondVC() {
@@ -68,6 +126,8 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         addPasswordTextField()
         addCheckPasswordTextField()
         addMainTextView()
+        addNextBtn()
+        addCancelBtn()
     }
     
     // MARK: - addSecondVCImgView
@@ -157,61 +217,61 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     // MARK: - addPasswordTextField
     private func addPasswordTextField() {
-         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
-         
-         let guide = self.view.safeAreaLayoutGuide
-         
-         let passwordTextFieldHeight: CGFloat = (view.bounds.size.height - (view.bounds.size.height - 34))
-         
-         self.view.addSubview(passwordTextField)
-         
-         let passwordTop: NSLayoutConstraint
-         passwordTop = passwordTextField.topAnchor.constraint(equalTo: idTextField.bottomAnchor, constant: 16)
-         
-         let passwordLeading: NSLayoutConstraint
-         passwordLeading = passwordTextField.leadingAnchor.constraint(equalTo: secondVCImgView.trailingAnchor, constant: 20)
-         
-         let passwordTrailing: NSLayoutConstraint
-         passwordTrailing = passwordTextField.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -20)
-         
-         let passwordHeight: NSLayoutConstraint
-         passwordHeight = passwordTextField.heightAnchor.constraint(equalToConstant: passwordTextFieldHeight)
-         
-         passwordTop.isActive = true
-         passwordLeading.isActive = true
-         passwordTrailing.isActive = true
-         passwordHeight.isActive = true
-     }
+        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
+        
+        let guide = self.view.safeAreaLayoutGuide
+        
+        let passwordTextFieldHeight: CGFloat = (view.bounds.size.height - (view.bounds.size.height - 34))
+        
+        self.view.addSubview(passwordTextField)
+        
+        let passwordTop: NSLayoutConstraint
+        passwordTop = passwordTextField.topAnchor.constraint(equalTo: idTextField.bottomAnchor, constant: 16)
+        
+        let passwordLeading: NSLayoutConstraint
+        passwordLeading = passwordTextField.leadingAnchor.constraint(equalTo: secondVCImgView.trailingAnchor, constant: 20)
+        
+        let passwordTrailing: NSLayoutConstraint
+        passwordTrailing = passwordTextField.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -20)
+        
+        let passwordHeight: NSLayoutConstraint
+        passwordHeight = passwordTextField.heightAnchor.constraint(equalToConstant: passwordTextFieldHeight)
+        
+        passwordTop.isActive = true
+        passwordLeading.isActive = true
+        passwordTrailing.isActive = true
+        passwordHeight.isActive = true
+    }
     
     // MARK: - addCheckPasswordTextField
     private func addCheckPasswordTextField() {
-           checkPasswordTextField.translatesAutoresizingMaskIntoConstraints = false
-           
-           let guide = self.view.safeAreaLayoutGuide
-           
-           let checkPasswordTextFieldHeight: CGFloat = (view.bounds.size.height - (view.bounds.size.height - 34))
-           
-           self.view.addSubview(checkPasswordTextField)
-           
-           let checkPasswordTop: NSLayoutConstraint
-           checkPasswordTop = checkPasswordTextField.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 16)
-           
-           let checkPasswordLeading: NSLayoutConstraint
-           checkPasswordLeading = checkPasswordTextField.leadingAnchor.constraint(equalTo: secondVCImgView.trailingAnchor, constant: 20)
-           
-           let checkPasswordTrailing: NSLayoutConstraint
-           checkPasswordTrailing = checkPasswordTextField.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -20)
-           
-           let checkPasswordHeight: NSLayoutConstraint
-           checkPasswordHeight = checkPasswordTextField.heightAnchor.constraint(equalToConstant: checkPasswordTextFieldHeight)
-           
-           checkPasswordTop.isActive = true
-           checkPasswordLeading.isActive = true
-           checkPasswordTrailing.isActive = true
-           checkPasswordHeight.isActive = true
-       }
+        checkPasswordTextField.translatesAutoresizingMaskIntoConstraints = false
+        
+        let guide = self.view.safeAreaLayoutGuide
+        
+        let checkPasswordTextFieldHeight: CGFloat = (view.bounds.size.height - (view.bounds.size.height - 34))
+        
+        self.view.addSubview(checkPasswordTextField)
+        
+        let checkPasswordTop: NSLayoutConstraint
+        checkPasswordTop = checkPasswordTextField.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 16)
+        
+        let checkPasswordLeading: NSLayoutConstraint
+        checkPasswordLeading = checkPasswordTextField.leadingAnchor.constraint(equalTo: secondVCImgView.trailingAnchor, constant: 20)
+        
+        let checkPasswordTrailing: NSLayoutConstraint
+        checkPasswordTrailing = checkPasswordTextField.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -20)
+        
+        let checkPasswordHeight: NSLayoutConstraint
+        checkPasswordHeight = checkPasswordTextField.heightAnchor.constraint(equalToConstant: checkPasswordTextFieldHeight)
+        
+        checkPasswordTop.isActive = true
+        checkPasswordLeading.isActive = true
+        checkPasswordTrailing.isActive = true
+        checkPasswordHeight.isActive = true
+    }
     
-    // MARK: - addMainTextView
+//    MARK: - addMainTextView
     private func addMainTextView() {
         mainTextView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -236,4 +296,75 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         mainTextViewTrailing.isActive = true
         mainTextViewBottom.isActive = true
     }
+    
+    // MARK: - addNextBtn
+    private func addNextBtn() {
+        
+        nextBtn.addTarget(self, action: #selector(didTappedNextBtn), for: .touchUpInside)
+        
+        nextBtn.translatesAutoresizingMaskIntoConstraints = false
+        
+        let guide = view.safeAreaLayoutGuide
+        let widthValue = (cancelBtn.bounds.size.width - 10)
+        
+        self.view.addSubview(nextBtn)
+        
+        let nextBtnTop: NSLayoutConstraint
+        nextBtnTop = nextBtn.topAnchor.constraint(equalTo: mainTextView.bottomAnchor, constant: 10)
+        
+        let nextBtnTrailing: NSLayoutConstraint
+        nextBtnTrailing = nextBtn.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -10)
+        
+        let nextBtnWidth: NSLayoutConstraint
+        nextBtnWidth = nextBtn.widthAnchor.constraint(equalTo: guide.widthAnchor, multiplier: 0.5)
+        
+        let nextBtnBottom: NSLayoutConstraint
+        nextBtnBottom = nextBtn.bottomAnchor.constraint(equalTo: guide.bottomAnchor)
+        
+        
+        nextBtnTop.isActive = true
+        nextBtnTrailing.isActive = true
+        nextBtnWidth.isActive = true
+        nextBtnBottom.isActive = true
+        
+    }
+    
+    @objc private func didTappedNextBtn() {
+        print("tapped next btn")
+    }
+    
+    // MARK: - addCancelBtn
+    private func addCancelBtn() {
+        
+        cancelBtn.addTarget(self, action: #selector(didTappedCancelBtn), for: .touchUpInside)
+        
+        cancelBtn.translatesAutoresizingMaskIntoConstraints = false
+        
+        let guide = view.safeAreaLayoutGuide
+        
+        self.view.addSubview(cancelBtn)
+        
+        let cancelBtnTop: NSLayoutConstraint
+        cancelBtnTop = cancelBtn.topAnchor.constraint(equalTo: mainTextView.bottomAnchor, constant: 10)
+        
+        let cancelBtnLeading: NSLayoutConstraint
+        cancelBtnLeading = cancelBtn.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 20)
+        
+        let cancelBtnWidth: NSLayoutConstraint
+        cancelBtnWidth = cancelBtn.widthAnchor.constraint(equalTo: guide.widthAnchor, multiplier: 0.5)
+        
+        let cancelBtnBottom: NSLayoutConstraint
+        cancelBtnBottom = cancelBtn.bottomAnchor.constraint(equalTo: guide.bottomAnchor)
+        
+        cancelBtnTop.isActive = true
+        cancelBtnLeading.isActive = true
+        cancelBtnWidth.isActive = true
+        cancelBtnBottom.isActive = true
+        
+    }
+    
+    @objc private func didTappedCancelBtn() {
+        print("tapped cancel btn")
+    }
+    
 }
