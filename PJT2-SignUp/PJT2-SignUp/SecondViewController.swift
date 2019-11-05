@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SecondViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate {
+class SecondViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     // MARK: - secondVCImgView
     let secondVCImgView = UIImageView()
@@ -81,13 +81,15 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         view.backgroundColor = .white
         
-        
-        
-        
         tapGesture()
         textFieldsDelegate()
         addViewsWithCodeInSecondVC()
 //        validation()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
     }
     
@@ -301,7 +303,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     // MARK: - addNextBtn
     private func addNextBtn() {
         
-        nextBtn.addTarget(self, action: #selector(validation), for: .touchUpInside)
+        nextBtn.addTarget(self, action: #selector(didTappedNextBtn), for: .touchUpInside)
         
         nextBtn.translatesAutoresizingMaskIntoConstraints = false
         
@@ -369,15 +371,12 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         print("tapped cancel btn")
     }
     
-   @objc private func validation() {
-      
-            if passwordTextField.text == checkPasswordTextField.text && idTextField.text?.isEmpty == false && secondVCImgView.image != nil && mainTextView.text?.isEmpty == false {
-                nextBtn.isSelected = true
-                print("go to next View")
-            } else {
-                nextBtn.isSelected = false
-                print("noting action")
-            }
-        
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if passwordTextField.text == checkPasswordTextField.text && idTextField.text?.isEmpty == false && passwordTextField.text?.isEmpty == false && checkPasswordTextField.text?.isEmpty == false {
+            print("access")
+        } else {
+            print("fail")
+        }
     }
 }
