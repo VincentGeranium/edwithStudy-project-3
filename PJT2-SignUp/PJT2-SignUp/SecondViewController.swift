@@ -15,22 +15,22 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     // MARK: - nextButton
     lazy var nextBtn: UIButton = {
-        let nextButton: UIButton = UIButton()
+        let nextButton: UIButton = UIButton(type: .custom)
         nextButton.setTitle("다음", for: .normal)
-        nextButton.setTitle("다음", for: .disabled)
-        nextButton.setTitleColor(.red, for: .normal)
-        nextButton.setTitleColor(.lightGray, for: .disabled)
-        nextButton.backgroundColor = .lightGray
+        nextButton.setTitle("다음", for: .selected)
+        nextButton.setTitleColor(.blue, for: .selected)
+        nextButton.setTitleColor(.lightGray, for: .normal)
+//        nextButton.backgroundColor = .lightGray
         nextButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         return nextButton
     }()
     
     // MARK: - cancelButton
     lazy var cancelBtn: UIButton = {
-        let cancelButton: UIButton = UIButton()
-        cancelButton.backgroundColor = .red
+        let cancelButton: UIButton = UIButton(type: .custom)
+//        cancelButton.backgroundColor = .red
         cancelButton.setTitle("취소", for: .normal)
-        cancelButton.setTitleColor(.blue, for: .normal)
+        cancelButton.setTitleColor(.red, for: .normal)
         cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         return cancelButton
     }()
@@ -87,6 +87,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         tapGesture()
         textFieldsDelegate()
         addViewsWithCodeInSecondVC()
+//        validation()
         
     }
     
@@ -300,12 +301,11 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     // MARK: - addNextBtn
     private func addNextBtn() {
         
-        nextBtn.addTarget(self, action: #selector(didTappedNextBtn), for: .touchUpInside)
+        nextBtn.addTarget(self, action: #selector(validation), for: .touchUpInside)
         
         nextBtn.translatesAutoresizingMaskIntoConstraints = false
         
         let guide = view.safeAreaLayoutGuide
-        let widthValue = (cancelBtn.bounds.size.width - 10)
         
         self.view.addSubview(nextBtn)
         
@@ -313,7 +313,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         nextBtnTop = nextBtn.topAnchor.constraint(equalTo: mainTextView.bottomAnchor, constant: 10)
         
         let nextBtnTrailing: NSLayoutConstraint
-        nextBtnTrailing = nextBtn.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -10)
+        nextBtnTrailing = nextBtn.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -7)
         
         let nextBtnWidth: NSLayoutConstraint
         nextBtnWidth = nextBtn.widthAnchor.constraint(equalTo: guide.widthAnchor, multiplier: 0.5)
@@ -326,6 +326,8 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         nextBtnTrailing.isActive = true
         nextBtnWidth.isActive = true
         nextBtnBottom.isActive = true
+        
+//        print("\(view.bounds.size.width)")
         
     }
     
@@ -348,7 +350,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         cancelBtnTop = cancelBtn.topAnchor.constraint(equalTo: mainTextView.bottomAnchor, constant: 10)
         
         let cancelBtnLeading: NSLayoutConstraint
-        cancelBtnLeading = cancelBtn.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 20)
+        cancelBtnLeading = cancelBtn.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 7)
         
         let cancelBtnWidth: NSLayoutConstraint
         cancelBtnWidth = cancelBtn.widthAnchor.constraint(equalTo: guide.widthAnchor, multiplier: 0.5)
@@ -367,4 +369,15 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         print("tapped cancel btn")
     }
     
+   @objc private func validation() {
+      
+            if passwordTextField.text == checkPasswordTextField.text && idTextField.text?.isEmpty == false && secondVCImgView.image != nil && mainTextView.text?.isEmpty == false {
+                nextBtn.isSelected = true
+                print("go to next View")
+            } else {
+                nextBtn.isSelected = false
+                print("noting action")
+            }
+        
+    }
 }
