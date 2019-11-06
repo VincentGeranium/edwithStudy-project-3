@@ -67,7 +67,7 @@ class FirstViewController: UIViewController {
         titleImgHeight.isActive = true
         
         titleImgView.image = titleImg
-        print("\(titleImgView.image)")
+        
     }
     
     private func addIdTextField() {
