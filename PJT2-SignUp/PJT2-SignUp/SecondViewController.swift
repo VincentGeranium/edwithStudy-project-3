@@ -23,7 +23,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         nextButton.setTitle("다음", for: .selected)
         nextButton.setTitleColor(.blue, for: .selected)
         nextButton.setTitleColor(.lightGray, for: .normal)
-//        nextButton.backgroundColor = .lightGray
+        //        nextButton.backgroundColor = .lightGray
         nextButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         return nextButton
     }()
@@ -31,7 +31,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     // MARK: - cancelButton
     lazy var cancelBtn: UIButton = {
         let cancelButton: UIButton = UIButton(type: .custom)
-//        cancelButton.backgroundColor = .red
+        //        cancelButton.backgroundColor = .red
         cancelButton.setTitle("취소", for: .normal)
         cancelButton.setTitleColor(.red, for: .normal)
         cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
@@ -53,7 +53,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         let id: UITextField = UITextField()
         id.placeholder = "ID"
         id.borderStyle = .roundedRect
-        id.addTarget(self, action: #selector(whenEditingIdTxtField(_:)), for: .allEvents)
+        //        id.addTarget(self, action: #selector(whenEditingIdTxtField(_:)), for: .allEditingEvents)
         return id
     }()
     
@@ -62,7 +62,8 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         let password: UITextField = UITextField()
         password.placeholder = "Password"
         password.borderStyle = .roundedRect
-        password.addTarget(self, action: #selector(whenEditingIdTxtField(_:)), for: .allEvents)
+        
+        //        password.addTarget(self, action: #selector(whenEditingIdTxtField(_:)), for: .allEditingEvents)
         return password
     }()
     
@@ -71,7 +72,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         let checkBox: UITextField = UITextField()
         checkBox.placeholder = "Check Password"
         checkBox.borderStyle = .roundedRect
-        checkBox.addTarget(self, action: #selector(whenEditingIdTxtField(_:)), for: .allEvents)
+        //        checkBox.addTarget(self, action: #selector(whenEditingIdTxtField(_:)), for: .allEditingEvents)
         return checkBox
     }()
     
@@ -90,7 +91,10 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         tapGesture()
         AllDelegate()
         addViewsWithCodeInSecondVC()
-//        validation()
+        //        validation()
+        
+        
+        
         
     }
     
@@ -105,19 +109,23 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         passwordTextField.delegate = self
         checkPasswordTextField.delegate = self
         mainTextView.delegate = self
+        imgPicker.delegate = self
+        
     }
     
     // MARK: - textFieldShouldReturn
     /// when user tapped return key the keyboard will be hidden
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
+    //    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    //        textField.resignFirstResponder()
+    //        return true
+    //    }
     
     // MARK: - textViewShouldEndEditing
     /// when user tapped return key the keyboard will be hidden
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-        textView.resignFirstResponder()
+        // MARK: - confirmDatas in textViewShouldEndEditing
+        confirmDatas()
+        //        textView.resignFirstResponder()
         return true
     }
     
@@ -134,6 +142,8 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     // endEditing
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         self.view.endEditing(true)
+        // MARK: - confirmDatas in gestureRecognizer
+        confirmDatas()
         return true
     }
     
@@ -187,12 +197,15 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     // MARK: - didTappedImgView
     @objc func didTappedImgView(_ sender: UIImageView) {
         self.present(self.imgPicker, animated: true, completion: nil)
+        
     }
     
     // 이미지 피커 취소시
     // MARK: - imagePickerControllerDidCancel
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
+        // 이미지 선택을 취소했으므로 다음 버튼 비활성화
+        nextBtn.isSelected = false
     }
     
     // 이미지 피커를 이용하여 이미지를 선택했을 때
@@ -202,6 +215,8 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         if let originalImg: UIImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             self.secondVCImgView.image = originalImg
         }
+        // MARK: - confirmDatas in imagePickerController
+        confirmDatas()
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -289,7 +304,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         checkPasswordHeight.isActive = true
     }
     
-//    MARK: - addMainTextView
+    //    MARK: - addMainTextView
     private func addMainTextView() {
         mainTextView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -344,7 +359,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         nextBtnWidth.isActive = true
         nextBtnBottom.isActive = true
         
-//        print("\(view.bounds.size.width)")
+        //        print("\(view.bounds.size.width)")
         
     }
     
@@ -391,45 +406,144 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     // MARK: - whenEditingIdTxtField
     /// 사용자가 모든 정보를 기입한 상태가 아니라면 화면 오른쪽 하단의 '다음' 버튼은 기본적으로 비활성화되어있으며, 프로필 이미지, 아이디, 자기소개가 모두 채워지고, 패스워드가 일치하면 '다음' 버튼이 활성화됩니다.
-    @objc private func whenEditingIdTxtField(_ sender: UITextField) {
-        if sender.text?.isEmpty == false && passwordTextField.text == checkPasswordTextField.text && mainTextView.text?.isEmpty == false {
-            print("confirm textfields")
-            textViewDidEndEditing(mainTextView)
-            imageViewConfirm(secondVCImgView)
-            nextBtn.isSelected = true
-            
-        } else {
-            print("Error : Some textfield not filled")
-            nextBtn.isSelected = false
-        }
-    }
+    //    @objc private func whenEditingIdTxtField(_ sender: UITextField) {
+    //        if sender.text?.isEmpty == false && passwordTextField.text == checkPasswordTextField.text {
+    //            print("confirm textfields")
+    //            textViewDidEndEditing(mainTextView)
+    //            imageViewConfirm(secondVCImgView)
+    //            nextBtn.isSelected = true
+    //
+    //        } else {
+    //            print("Error : Some textfield not filled")
+    //            nextBtn.isSelected = false
+    //        }
+    //    }
+    
+    //    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+    //        if textField.text?.isEmpty == false && passwordTextField.text == checkPasswordTextField.text {
+    //            print("confirm textfields")
+    //        } else {
+    //            print("Error : Some textfield not filled")
+    //        }
+    //        return true
+    //    }
+    
+    //    func textFieldDidEndEditing(_ textField: UITextField) {
+    //        if idTextField.text?.isEmpty == false && passwordTextField.text?.isEmpty == false && checkPasswordTextField.text?.isEmpty == false && passwordTextField.text == checkPasswordTextField.text && imageViewConfirm(secondVCImgView) == true && textViewConfirm(mainTextView) == true {
+    //            print("confirm textfields")
+    //            //            imageViewConfirm(secondVCImgView)
+    //            //            textViewDidEndEditing(mainTextView)
+    //            nextBtn.isSelected = true
+    //        } else {
+    //            print("Error : Some textfield not filled")
+    //        }
+    //    }
+    
+    //    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+    //        if textField.text?.isEmpty == false {
+    //            if passwordTextField.text == checkPasswordTextField.text {
+    //                return true
+    //            } else {
+    //                print("Error: Password is not confirm, plz check password")
+    //                return false
+    //            }
+    //        } else {
+    //            print("Error: All textField must filled")
+    //            return false
+    //        }
+    //    }
+    
+    //    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    //        if idTextField.text?.isEmpty == false && passwordTextField.text?.isEmpty == false && checkPasswordTextField.text?.isEmpty == false && passwordTextField.text == checkPasswordTextField.text {
+    //                 print("textFields confirm")
+    //                 return true
+    //             } else {
+    //                 print("Error: Some textField will empty or password isn't same")
+    //             }
+    //             return false
+    //    }
     
     // MARK: - textViewDidEndEditing
     /// 텍스트 뷰 내에  데이터가 있는지 없는지 확인
-    func textViewDidEndEditing(_ textView: UITextView) {
+    
+    //    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+    //
+    //        if textView.text?.isEmpty == false {
+    //            print("confirm textView")
+    //            return true
+    //        } else {
+    //            print("Error : textView is Empty")
+    //            nextBtn.isSelected = false
+    //        }
+    //        return false
+    //    }
+    
+    //    func textViewDidEndEditing(_ textView: UITextView) {
+    //        if textView.text?.isEmpty == false {
+    //            print("confirm textView")
+    //        } else {
+    //            print("Error : textView is Empty")
+    //            nextBtn.isSelected = false
+    //        }
+    //    }
+    
+    func textFieldConfirm() -> Bool {
+        if idTextField.text?.isEmpty == false && passwordTextField.text?.isEmpty == false && checkPasswordTextField.text?.isEmpty == false {
+            print("all textFields are filled")
+            if passwordTextField.text == checkPasswordTextField.text {
+                print("password is confirm")
+                return true
+            } else {
+                print("check password is same")
+                nextBtn.isSelected = false
+                return false
+            }
+        } else {
+            print("all textFields must filled")
+            nextBtn.isSelected = false
+            return false
+        }
+    }
+    
+    func textViewConfirm(_ textView: UITextView) -> Bool{
         if textView.text?.isEmpty == false {
             print("confirm textView")
+            return true
         } else {
-            print("Error : textView is Empty")
+            print("Error: TextView is Empty")
             nextBtn.isSelected = false
         }
+        return false
     }
     
-    func imageViewConfirm(_ imageView: UIImageView) {
+    func imageViewConfirm(_ imageView: UIImageView) -> Bool {
         if imageView.image != nil {
             print("confirm imageView")
+            return true
         } else {
             print("Error : can't get image")
+            nextBtn.isSelected = false
+        }
+        return false
+    }
+    
+    // MARK: - confirmDatas
+    func confirmDatas() {
+        if textFieldConfirm() == true && textViewConfirm(mainTextView) == true && imageViewConfirm(secondVCImgView) == true {
+            nextBtn.isSelected = true
+            
+        } else {
+            print("Error: check image, textfields, textview")
+            nextBtn.isSelected = false
+            
         }
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // MARK: - confirmDatas in textFieldShouldReturn
+        confirmDatas()
+        return true
+    }
+    
+    
 }
-
-
-//if secondVCImgView.image != nil {
-//               print("confirm imageView")
-//               nextBtn.isSelected = true
-//           } else {
-//               print("Error : can't get image")
-//               nextBtn.isSelected = false
-//           }
