@@ -10,7 +10,9 @@ import UIKit
 
 class SecondViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, UITextViewDelegate {
     
-    // MARK: - ThirdViewController
+    
+    
+//    // MARK: - ThirdViewController
     let thirdVC = ThirdViewController()
     
     // MARK: - secondVCImgView
@@ -85,6 +87,9 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         view.backgroundColor = .white
         
+     
+       
+        
         tapGesture()
         AllDelegate()
         addViewsWithCodeInSecondVC()
@@ -102,6 +107,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         checkPasswordTextField.delegate = self
         mainTextView.delegate = self
         imgPicker.delegate = self
+        
         
     }
     
@@ -390,6 +396,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     // MARK: - didTappedNextBtnWhenSelectState
     @objc private func didTappedNextBtnWhenSelectState() {
+        FirstViewController.naviVC.pushViewController(thirdVC, animated: true)
         print("tapped When Select State Btn")
         
        

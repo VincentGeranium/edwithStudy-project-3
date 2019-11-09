@@ -10,6 +10,7 @@ import UIKit
 
 class FirstViewController: UIViewController {
     
+    static let naviVC = UINavigationController(rootViewController: SecondViewController())
     let idTextField = UITextField()
     let pwTextField = UITextField()
     let signInBtn = UIButton(type: .custom)
@@ -31,6 +32,11 @@ class FirstViewController: UIViewController {
         addPwTextField()
         addSignInBtn()
         addSignUpBtn()
+        configureNaviVC()
+    }
+    
+    private func configureNaviVC() {
+        FirstViewController.naviVC.isNavigationBarHidden = true
     }
     
     private func addTitleImgView() {
@@ -207,9 +213,7 @@ class FirstViewController: UIViewController {
     
     @objc private func didTappedSignUpBtn(_ sender: UIButton) {
         
-        let secondVC = SecondViewController()
-        
-        self.present(secondVC, animated: true, completion: nil)
+        self.present(FirstViewController.naviVC, animated: true, completion: nil)
         
     }
     
