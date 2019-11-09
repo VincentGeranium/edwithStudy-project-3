@@ -396,7 +396,8 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     // MARK: - didTappedNextBtnWhenSelectState
     @objc private func didTappedNextBtnWhenSelectState() {
-        FirstViewController.naviVC.pushViewController(thirdVC, animated: true)
+        let secondVC = FirstViewController.naviVC
+        secondVC.pushViewController(thirdVC, animated: true)
         print("tapped When Select State Btn")
         
        

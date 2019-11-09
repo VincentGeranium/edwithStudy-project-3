@@ -213,7 +213,9 @@ class FirstViewController: UIViewController {
     
     @objc private func didTappedSignUpBtn(_ sender: UIButton) {
         
-        self.present(FirstViewController.naviVC, animated: true, completion: nil)
+        let secondVC = FirstViewController.naviVC
+        
+        self.present(secondVC, animated: true, completion: nil)
         
     }
     
