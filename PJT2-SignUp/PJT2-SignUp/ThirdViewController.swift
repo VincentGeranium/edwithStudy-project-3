@@ -29,6 +29,35 @@ class ThirdViewController: UIViewController {
         
         return phoneNumTxtField
     }()
+    
+    lazy var dateOfBirthTitle: UILabel = {
+        let dateOfBirthTitle: UILabel = UILabel()
+        dateOfBirthTitle.text = "생년월일"
+        dateOfBirthTitle.textAlignment = .left
+        dateOfBirthTitle.textColor = .black
+        dateOfBirthTitle.font = .systemFont(ofSize: 20)
+        
+        return dateOfBirthTitle
+    }()
+    
+    lazy var dateOfBirthDisplay: UILabel = {
+        let dateOfBirthDisplay: UILabel = UILabel()
+        dateOfBirthDisplay.text = "April 24, 1991"
+        dateOfBirthDisplay.textAlignment = .left
+        dateOfBirthDisplay.textColor = .black
+        dateOfBirthDisplay.font = .systemFont(ofSize: 20)
+        
+        return dateOfBirthDisplay
+    }()
+    
+    
+    
+    lazy var mainDatePicker: UIDatePicker = {
+        let mainDatePicker: UIDatePicker = UIDatePicker()
+        mainDatePicker.datePickerMode = UIDatePicker.Mode.date
+        
+        return mainDatePicker
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +71,9 @@ class ThirdViewController: UIViewController {
     private func addAllContentsWithCode() {
         addPhoneNumTitle()
         addPhoneNumTxtField()
+        addDateOfBirthLabel()
+        addDateOfBirthDisplay()
+        addMainDatePicker()
     }
     
     // MARK: - addPhoneNumTitle()
@@ -107,6 +139,78 @@ class ThirdViewController: UIViewController {
         phoneNumTxtLeading.isActive = true
         phoneNumTxtTrailing.isActive = true
         phoneNumTxtHeight.isActive = true
+    }
+    
+    private func addDateOfBirthLabel() {
+        
+        dateOfBirthTitle.translatesAutoresizingMaskIntoConstraints = false
+        
+//        dateOfBirthTitle.backgroundColor = .lightGray
+        
+        let guide = view.safeAreaLayoutGuide
+                
+        self.view.addSubview(dateOfBirthTitle)
+        
+        let dateOfBirthTop: NSLayoutConstraint
+        dateOfBirthTop = dateOfBirthTitle.topAnchor.constraint(equalTo: phoneNumTxtField.bottomAnchor, constant: 20)
+        
+        let dateOfBirthLeading: NSLayoutConstraint
+        dateOfBirthLeading = dateOfBirthTitle.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 20)
+        
+        let dateOfBirthWidth: NSLayoutConstraint
+        dateOfBirthWidth = dateOfBirthTitle.widthAnchor.constraint(equalTo: phoneNumTxtField.widthAnchor, multiplier: 0.5)
+        
+        
+        dateOfBirthTop.isActive = true
+        dateOfBirthLeading.isActive = true
+        dateOfBirthWidth.isActive = true
+        
+    }
+    
+    private func addDateOfBirthDisplay() {
+        dateOfBirthDisplay.translatesAutoresizingMaskIntoConstraints = false
+        
+//        dateOfBirthDisplay.backgroundColor = .red
+        
+        let guide = view.safeAreaLayoutGuide
+        
+        self.view.addSubview(dateOfBirthDisplay)
+        
+        let dateOfBirthDisplayTop: NSLayoutConstraint
+        dateOfBirthDisplayTop = dateOfBirthDisplay.topAnchor.constraint(equalTo: phoneNumTxtField.bottomAnchor, constant: 20)
+        
+        let dateOfBirthDisplayLeading: NSLayoutConstraint
+        dateOfBirthDisplayLeading = dateOfBirthDisplay.leadingAnchor.constraint(equalTo: dateOfBirthTitle.trailingAnchor)
+        
+        let dateOfBirthDisplayTrailing: NSLayoutConstraint
+        dateOfBirthDisplayTrailing = dateOfBirthDisplay.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -20)
+        
+        dateOfBirthDisplayTop.isActive = true
+        dateOfBirthDisplayLeading.isActive = true
+        dateOfBirthDisplayTrailing.isActive = true
+    }
+    
+    private func addMainDatePicker() {
+        mainDatePicker.translatesAutoresizingMaskIntoConstraints = false
+        
+        let guide = view.safeAreaLayoutGuide
+        
+        self.view.addSubview(mainDatePicker)
+        
+        let mainDatePickerTop: NSLayoutConstraint
+        mainDatePickerTop = mainDatePicker.topAnchor.constraint(equalTo: dateOfBirthTitle.bottomAnchor, constant: 20)
+        
+        let mainDatePickerLeading: NSLayoutConstraint
+        mainDatePickerLeading = mainDatePicker.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 20)
+        
+        let mainDatePickerTrailing: NSLayoutConstraint
+        mainDatePickerTrailing = mainDatePicker.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -20)
+        
+        mainDatePickerTop.isActive = true
+        mainDatePickerLeading.isActive = true
+        mainDatePickerTrailing.isActive = true
+        
+        
     }
 
 
