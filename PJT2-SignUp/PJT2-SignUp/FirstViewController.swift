@@ -32,11 +32,7 @@ class FirstViewController: UIViewController {
         addPwTextField()
         addSignInBtn()
         addSignUpBtn()
-        configureNaviVC()
-    }
-    
-    private func configureNaviVC() {
-        FirstViewController.naviVC.isNavigationBarHidden = true
+        
     }
     
     private func addTitleImgView() {
@@ -52,8 +48,8 @@ class FirstViewController: UIViewController {
         
         let guide = view.safeAreaLayoutGuide
         
-        let imgViewWidthValue = (view.bounds.size.width - (view.bounds.size.width - 250))
-        let imgViewHeightValue = (view.bounds.size.height - (view.bounds.size.height - 250))
+        let imgViewWidthValue = (view.bounds.size.width - (view.bounds.size.width - 180))
+        let imgViewHeightValue = (view.bounds.size.height - (view.bounds.size.height - 180))
         
         let titleImgTopAnchor: NSLayoutConstraint
         titleImgTopAnchor = titleImgView.topAnchor.constraint(equalTo: guide.topAnchor, constant: 20)
@@ -218,11 +214,5 @@ class FirstViewController: UIViewController {
         self.present(secondVC, animated: true, completion: nil)
         
     }
-    
-    
-    
-    
-
-
 }
 

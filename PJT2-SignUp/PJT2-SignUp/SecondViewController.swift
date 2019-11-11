@@ -12,8 +12,11 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     
     
-//    // MARK: - ThirdViewController
+    // MARK: - ThirdViewController
     let thirdVC = ThirdViewController()
+    
+    // MARK: - UINavigationController(rootViewController: SecondViewController())
+//    let secondVC = FirstViewController.naviVC
     
     // MARK: - secondVCImgView
     let secondVCImgView = UIImageView()
@@ -93,6 +96,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         tapGesture()
         AllDelegate()
         addViewsWithCodeInSecondVC()
+        naviConfigure()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -107,8 +111,13 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         checkPasswordTextField.delegate = self
         mainTextView.delegate = self
         imgPicker.delegate = self
-        
-        
+        FirstViewController.naviVC.delegate = self
+    }
+    
+    private func naviConfigure() {
+        let secondVC = FirstViewController.naviVC
+//        secondVC.navigationBar.isHidden = true
+        secondVC.isNavigationBarHidden = true
     }
     
     // MARK: - textViewShouldEndEditing
@@ -396,7 +405,9 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     // MARK: - didTappedNextBtnWhenSelectState
     @objc private func didTappedNextBtnWhenSelectState() {
+        
         let secondVC = FirstViewController.naviVC
+        
         secondVC.pushViewController(thirdVC, animated: true)
         print("tapped When Select State Btn")
         
