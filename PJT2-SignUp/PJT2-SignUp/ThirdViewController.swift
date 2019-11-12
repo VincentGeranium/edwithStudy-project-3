@@ -42,10 +42,19 @@ class ThirdViewController: UIViewController {
     
     lazy var dateOfBirthDisplay: UILabel = {
         let dateOfBirthDisplay: UILabel = UILabel()
-        dateOfBirthDisplay.text = "April 24, 1991"
+        dateOfBirthDisplay.text = ""
         dateOfBirthDisplay.textAlignment = .left
         dateOfBirthDisplay.textColor = .black
         dateOfBirthDisplay.font = .systemFont(ofSize: 20)
+        
+        let initDateFormatter = DateFormatter()
+        initDateFormatter.dateStyle = DateFormatter.Style.medium
+        initDateFormatter.timeStyle = DateFormatter.Style.none
+        
+        let initDatePickerDate = mainDatePicker.date
+        let initDateValue = initDateFormatter.string(from: initDatePickerDate)
+        
+        dateOfBirthDisplay.text = initDateValue
         
         return dateOfBirthDisplay
     }()
@@ -63,7 +72,9 @@ class ThirdViewController: UIViewController {
         super.viewDidLoad()
 
         self.view.backgroundColor = .white
+        
         addAllContentsWithCode()
+        addAllConfigureWithCode()
     }
     
     // MARK: - addAllContentsWithCode()
@@ -74,6 +85,11 @@ class ThirdViewController: UIViewController {
         addDateOfBirthLabel()
         addDateOfBirthDisplay()
         addMainDatePicker()
+    }
+    
+    // MARK: - addAllConfigureWithCode()
+    private func addAllConfigureWithCode() {
+        mainDatePickerConfigure()
     }
     
     // MARK: - addPhoneNumTitle()
@@ -209,8 +225,23 @@ class ThirdViewController: UIViewController {
         mainDatePickerTop.isActive = true
         mainDatePickerLeading.isActive = true
         mainDatePickerTrailing.isActive = true
+    }
+    
+    private func mainDatePickerConfigure() {
+        mainDatePicker.addTarget(self, action: #selector(dateValueChange), for: .valueChanged)
+    }
+    
+    // MARK: - dateValueChange
+    @objc private func dateValueChange() {
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.medium
+        dateFormatter.timeStyle = DateFormatter.Style.none
+
+        let datePickerDate = mainDatePicker.date
+        let dateValue = dateFormatter.string(from: datePickerDate)
         
+        dateOfBirthDisplay.text = dateValue
     }
 
 
