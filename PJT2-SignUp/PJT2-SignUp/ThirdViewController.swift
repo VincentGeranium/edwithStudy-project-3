@@ -112,7 +112,9 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     
     private func defaultDate() -> String {
         let initDatePickerDate = mainDatePicker.date
+//        let initDatePickerDate = getTodayDate()
         let initDateValue = dateFormatter.string(from: initDatePickerDate)
+        
 
         dateOfBirthDisplay.text = initDateValue
         
@@ -218,7 +220,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     }
     
     @objc private func didTappedPhoneTxtField() {
-        validationOfSignUpBtn()
+//        validationOfSignUpBtn()
     }
     
     // MARK: - addDateOfBirthLabel()
@@ -305,15 +307,14 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     
     // MARK: - dateValueChange
     /// datePicker의 date가 바뀜에 따라 dateOfBirthDisplay의 text도 바뀌게 만드는 method
-    @objc private func dateValueChange() -> String{
-
-        let datePickerDate = mainDatePicker.date
-        let dateValue = dateFormatter.string(from: datePickerDate)
+    @objc private func dateValueChange() {
         
-        dateOfBirthDisplay.text = dateValue
-        print("date value changed")
         
-        return dateValue
+            let datePickerDate = mainDatePicker.date
+            let dateValue = dateFormatter.string(from: datePickerDate)
+            dateOfBirthDisplay.text = dateValue
+            print("date value changed")
+        
     }
     
     // MARK: - addCancelBtn()
@@ -426,14 +427,14 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
           
       }
     
-    private func dateCheck() -> Bool {
-        if defaultDate() != dateValueChange() {
-            return true
-        } else {
-            return false
-        }
-    }
-    
+//    private func dateCheck() -> Bool {
+//        if dateValueChange() == true {
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
+//
 //    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 //            if phoneNumdataCheck() == true && dateCheck() == true {
 //                signUpConfirmBtn.isSelected = true
@@ -442,17 +443,28 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
 //                signUpConfirmBtn.isSelected = false
 //                return false
 //            }
-    private func validationOfSignUpBtn() {
-        if phoneNumdataCheck() == true && dateCheck() == true {
-            signUpConfirmBtn.isSelected = true
-            
-        } else {
-            signUpConfirmBtn.isSelected = false
-            
-        }
-    }
-    
-    
+//    private func validationOfSignUpBtn() {
+//        if phoneNumdataCheck() == true && dateCheck() == true {
+//            signUpConfirmBtn.isSelected = true
+//
+//        } else {
+//            signUpConfirmBtn.isSelected = false
+//
+//        }
+//    }
+//
+//    func getTodayDate() -> Date {
+//        //        let dateComponents = Calendar.autoupdatingCurrent.dateComponents([.month, .day, .year], from: Date())
+//        //        return Calendar.autoupdatingCurrent.date(from: dateComponents) ?? mainDatePicker.date
+//        let getToday = Date.init()
+//
+//        let myCalender = Calendar(identifier: .gregorian)
+//        let getDateComponent = myCalender.
+//
+//        return today
+//    }
+//
+//
 //    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
 //        if phoneNumdataCheck() == true && dateCheck() == true {
 //            signUpConfirmBtn.isSelected = true
