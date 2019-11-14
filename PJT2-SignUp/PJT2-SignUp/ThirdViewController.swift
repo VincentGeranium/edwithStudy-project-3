@@ -8,10 +8,10 @@
 
 import UIKit
 
-class ThirdViewController: UIViewController {
+class ThirdViewController: UIViewController,UITextFieldDelegate {
     
-    // MARK: - phoneNumTitle()
-    /// 전화번호 레이블
+    // MARK: - phoneNumTitle
+    /// 전화번호 타이틀 레이블
     lazy var phoneNumTitle: UILabel = {
         let phoneNumTitle: UILabel = UILabel()
         phoneNumTitle.text = "전화번호"
@@ -22,14 +22,17 @@ class ThirdViewController: UIViewController {
         return phoneNumTitle
     }()
     
+    // MARK: - phoneNumTxtField
     lazy var phoneNumTxtField: UITextField = {
         let phoneNumTxtField: UITextField = UITextField()
         phoneNumTxtField.borderStyle = .roundedRect
-        
+        phoneNumTxtField.keyboardType = .numberPad
+        phoneNumTxtField.becomeFirstResponder()
         
         return phoneNumTxtField
     }()
     
+    // MARK: - dateOfBirthTitle
     lazy var dateOfBirthTitle: UILabel = {
         let dateOfBirthTitle: UILabel = UILabel()
         dateOfBirthTitle.text = "생년월일"
@@ -40,6 +43,14 @@ class ThirdViewController: UIViewController {
         return dateOfBirthTitle
     }()
     
+    lazy var dateFormatter: DateFormatter = {
+        let dateFormatter: DateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.medium
+        dateFormatter.timeStyle = DateFormatter.Style.none
+        return dateFormatter
+    }()
+    
+    // MARK: - dateOfBirthDisplay
     lazy var dateOfBirthDisplay: UILabel = {
         let dateOfBirthDisplay: UILabel = UILabel()
         dateOfBirthDisplay.text = ""
@@ -47,34 +58,67 @@ class ThirdViewController: UIViewController {
         dateOfBirthDisplay.textColor = .black
         dateOfBirthDisplay.font = .systemFont(ofSize: 20)
         
-        let initDateFormatter = DateFormatter()
-        initDateFormatter.dateStyle = DateFormatter.Style.medium
-        initDateFormatter.timeStyle = DateFormatter.Style.none
-        
-        let initDatePickerDate = mainDatePicker.date
-        let initDateValue = initDateFormatter.string(from: initDatePickerDate)
-        
-        dateOfBirthDisplay.text = initDateValue
         
         return dateOfBirthDisplay
     }()
     
     
     
+    // MARK: - mainDatePicker
     lazy var mainDatePicker: UIDatePicker = {
         let mainDatePicker: UIDatePicker = UIDatePicker()
         mainDatePicker.datePickerMode = UIDatePicker.Mode.date
         
         return mainDatePicker
     }()
+    
+    // MARK: - cancelBtn
+    lazy var cancelBtn: UIButton = {
+        let cancelBtn: UIButton = UIButton()
+        cancelBtn.setTitle("취소", for: .normal)
+        cancelBtn.setTitleColor(.red, for: .normal)
+        
+        return cancelBtn
+    }()
+    
+    // MARK: - goBackBtn
+    lazy var goBackBtn: UIButton = {
+        let goBackBtn: UIButton = UIButton()
+        goBackBtn.setTitle("이전", for: .normal)
+        goBackBtn.setTitleColor(.blue, for: .normal)
+        return goBackBtn
+    }()
+    
+    // MARK: - signUpConfirmBtn
+    lazy var signUpConfirmBtn: UIButton = {
+        let signUpConfirmBtn: UIButton = UIButton()
+        signUpConfirmBtn.setTitle("가입", for: .normal)
+        signUpConfirmBtn.setTitleColor(.blue, for: .selected)
+        signUpConfirmBtn.setTitleColor(.lightGray, for: .normal)
+        
+        return signUpConfirmBtn
+    }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.view.backgroundColor = .white
-        
+        defaultDate()
         addAllContentsWithCode()
         addAllConfigureWithCode()
+        addAllDelegate()
+    }
+    
+    private func defaultDate() -> String {
+        let initDatePickerDate = mainDatePicker.date
+        let initDateValue = dateFormatter.string(from: initDatePickerDate)
+
+        dateOfBirthDisplay.text = initDateValue
+        
+        print("default Date excute")
+        
+        return initDateValue
     }
     
     // MARK: - addAllContentsWithCode()
@@ -85,11 +129,21 @@ class ThirdViewController: UIViewController {
         addDateOfBirthLabel()
         addDateOfBirthDisplay()
         addMainDatePicker()
+        addCancelBtn()
+        addGoBackBtn()
+        addSignUpConfirmBtn()
     }
     
     // MARK: - addAllConfigureWithCode()
     private func addAllConfigureWithCode() {
         mainDatePickerConfigure()
+        cancelBtnConfigure()
+        goBackBtnConfigure()
+        phoneNumTxtConfigure()
+    }
+    
+    private func addAllDelegate() {
+        phoneNumTxtField.delegate = self
     }
     
     // MARK: - addPhoneNumTitle()
@@ -123,6 +177,8 @@ class ThirdViewController: UIViewController {
         phoneNumHeight.isActive = true
     }
     
+    // MARK: - addPhoneNumTxtField()
+    /// 전화번호 텍스트필드 Autolayout
     private func addPhoneNumTxtField() {
         
         phoneNumTxtField.translatesAutoresizingMaskIntoConstraints = false
@@ -157,6 +213,16 @@ class ThirdViewController: UIViewController {
         phoneNumTxtHeight.isActive = true
     }
     
+    private func phoneNumTxtConfigure() {
+        phoneNumTxtField.addTarget(self, action: #selector(didTappedPhoneTxtField), for: .allEditingEvents)
+    }
+    
+    @objc private func didTappedPhoneTxtField() {
+        validationOfSignUpBtn()
+    }
+    
+    // MARK: - addDateOfBirthLabel()
+    /// 생년월일 타이틀 레이블 Autolayout
     private func addDateOfBirthLabel() {
         
         dateOfBirthTitle.translatesAutoresizingMaskIntoConstraints = false
@@ -183,6 +249,8 @@ class ThirdViewController: UIViewController {
         
     }
     
+    // MARK: - addDateOfBirthDisplay()
+    /// 생년월일이 표시되는 레이블 Autolayout
     private func addDateOfBirthDisplay() {
         dateOfBirthDisplay.translatesAutoresizingMaskIntoConstraints = false
         
@@ -206,6 +274,8 @@ class ThirdViewController: UIViewController {
         dateOfBirthDisplayTrailing.isActive = true
     }
     
+    // MARK: - addMainDatePicker()
+    /// DatePicker Autolayout
     private func addMainDatePicker() {
         mainDatePicker.translatesAutoresizingMaskIntoConstraints = false
         
@@ -227,22 +297,172 @@ class ThirdViewController: UIViewController {
         mainDatePickerTrailing.isActive = true
     }
     
+    // MARK: - mainDatePickerConfigure()
+    /// datePicker의 Target-Action pattern 생성
     private func mainDatePickerConfigure() {
         mainDatePicker.addTarget(self, action: #selector(dateValueChange), for: .valueChanged)
     }
     
     // MARK: - dateValueChange
-    @objc private func dateValueChange() {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = DateFormatter.Style.medium
-        dateFormatter.timeStyle = DateFormatter.Style.none
+    /// datePicker의 date가 바뀜에 따라 dateOfBirthDisplay의 text도 바뀌게 만드는 method
+    @objc private func dateValueChange() -> String{
 
         let datePickerDate = mainDatePicker.date
         let dateValue = dateFormatter.string(from: datePickerDate)
         
         dateOfBirthDisplay.text = dateValue
+        print("date value changed")
+        
+        return dateValue
     }
+    
+    // MARK: - addCancelBtn()
+    /// CancelBtn Autolayout
+    private func addCancelBtn() {
+        
+        cancelBtn.translatesAutoresizingMaskIntoConstraints = false
+        
+        let guide = view.safeAreaLayoutGuide
+        
+        self.view.addSubview(cancelBtn)
+        
+        let cancelBtnTop: NSLayoutConstraint
+        cancelBtnTop = cancelBtn.topAnchor.constraint(equalTo: mainDatePicker.bottomAnchor, constant: 20)
+        
+        let cancelBtnLeading: NSLayoutConstraint
+        cancelBtnLeading = cancelBtn.leadingAnchor.constraint(equalTo: guide.leadingAnchor)
+        
+        let cancelBtnWidth: NSLayoutConstraint
+        cancelBtnWidth = cancelBtn.widthAnchor.constraint(equalTo: guide.widthAnchor, multiplier: 1/3)
+        
+        let cancelBtnHeight: NSLayoutConstraint
+        cancelBtnHeight = cancelBtn.heightAnchor.constraint(equalToConstant: 100)
+        
+        cancelBtnTop.isActive = true
+        cancelBtnLeading.isActive = true
+        cancelBtnWidth.isActive = true
+        cancelBtnHeight.isActive = true
+    }
+    
+    // MARK: - cancelBtnConfigure()
+    /// cancelBtn Target-Action method
+    private func cancelBtnConfigure() {
+        cancelBtn.addTarget(self, action: #selector(didTappedCancelBtn), for: .touchUpInside)
+    }
+    
+    // MARK: - didTappedCancelBtn()
+    /// When didTapped cancel Btn, excute this code
+    @objc private func didTappedCancelBtn() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: - addGoBackBtn()
+    /// goBackBtn Autolayout
+    private func addGoBackBtn() {
+        
+        goBackBtn.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.view.addSubview(goBackBtn)
+        
+        let goBackBtnTop: NSLayoutConstraint
+        goBackBtnTop = goBackBtn.topAnchor.constraint(equalTo: mainDatePicker.bottomAnchor, constant: 20)
+        
+        let goBackBtnLeading: NSLayoutConstraint
+        goBackBtnLeading = goBackBtn.leadingAnchor.constraint(equalTo: cancelBtn.trailingAnchor)
+        
+        let goBackBtnWidth: NSLayoutConstraint
+        goBackBtnWidth = goBackBtn.widthAnchor.constraint(equalTo: cancelBtn.widthAnchor, multiplier: 1)
+        
+        let goBackBtnHeight: NSLayoutConstraint
+        goBackBtnHeight = goBackBtn.heightAnchor.constraint(equalTo: cancelBtn.heightAnchor, multiplier: 1)
+        
+        goBackBtnTop.isActive = true
+        goBackBtnLeading.isActive = true
+        goBackBtnWidth.isActive = true
+        goBackBtnHeight.isActive = true
+    }
+    
+    private func goBackBtnConfigure() {
+        goBackBtn.addTarget(self, action: #selector(didTappedGoBackBtn), for: .touchUpInside)
+    }
+    
+    @objc private func didTappedGoBackBtn() {
+        
+        navigationController?.popViewController(animated: true)
+    }
+    
+    // MARK: - addSignUpConfirmBtn()
+    /// signUpConfirmBtn Autolayout
+    private func addSignUpConfirmBtn() {
+        
+        signUpConfirmBtn.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.view.addSubview(signUpConfirmBtn)
+        
+        let signUpConfirmBtnTop: NSLayoutConstraint
+        signUpConfirmBtnTop = signUpConfirmBtn.topAnchor.constraint(equalTo: mainDatePicker.bottomAnchor, constant: 20)
+        
+        let signUpConfirmBtnLeading: NSLayoutConstraint
+        signUpConfirmBtnLeading = signUpConfirmBtn.leadingAnchor.constraint(equalTo: goBackBtn.trailingAnchor)
+        
+        let signUpConfirmBtnWidth: NSLayoutConstraint
+        signUpConfirmBtnWidth = signUpConfirmBtn.widthAnchor.constraint(equalTo: goBackBtn.widthAnchor, multiplier: 1)
+        
+        let signUpConfirmBtnHeight: NSLayoutConstraint
+        signUpConfirmBtnHeight = signUpConfirmBtn.heightAnchor.constraint(equalTo: goBackBtn.heightAnchor, multiplier: 1)
+        
+        signUpConfirmBtnTop.isActive = true
+        signUpConfirmBtnLeading.isActive = true
+        signUpConfirmBtnWidth.isActive = true
+        signUpConfirmBtnHeight.isActive = true
+    }
+    
+    private func phoneNumdataCheck() -> Bool {
+          if phoneNumTxtField.text?.isEmpty == false {
+              return true
+          } else {
+              return false
+          }
+          
+      }
+    
+    private func dateCheck() -> Bool {
+        if defaultDate() != dateValueChange() {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//            if phoneNumdataCheck() == true && dateCheck() == true {
+//                signUpConfirmBtn.isSelected = true
+//                return true
+//            } else {
+//                signUpConfirmBtn.isSelected = false
+//                return false
+//            }
+    private func validationOfSignUpBtn() {
+        if phoneNumdataCheck() == true && dateCheck() == true {
+            signUpConfirmBtn.isSelected = true
+            
+        } else {
+            signUpConfirmBtn.isSelected = false
+            
+        }
+    }
+    
+    
+//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+//        if phoneNumdataCheck() == true && dateCheck() == true {
+//            signUpConfirmBtn.isSelected = true
+//            return true
+//        } else {
+//            signUpConfirmBtn.isSelected = false
+//            return false
+//        }
+//    }
+    
 
 
 }
