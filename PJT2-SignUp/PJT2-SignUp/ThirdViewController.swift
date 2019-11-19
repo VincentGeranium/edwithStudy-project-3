@@ -57,60 +57,18 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         return myDateComponents
     }()
     
+    lazy var defaultDate: Date = {
+        let defaultDate: Date = Date()
+        return defaultDate
+    }()
+    
     // MARK: - dateOfBirthDisplay
     lazy var dateOfBirthDisplay: UILabel = {
         let dateOfBirthDisplay: UILabel = UILabel()
-        dateOfBirthDisplay.text = ""
+        dateOfBirthDisplay.text = self.dateFormatter.string(from: self.defaultDate)
         dateOfBirthDisplay.textAlignment = .left
         dateOfBirthDisplay.textColor = .black
         dateOfBirthDisplay.font = .systemFont(ofSize: 20)
-        
-        let myYMD = myDateComponents.dateComponents([.year, .month, .day], from: Date())
-        
-        let myYear = myYMD.year
-        let myMonth = myYMD.month
-        let myDay = myYMD.day
-        
-        if let day = myDay, let year = myYear, let month = myMonth {
-            var convertMonth = ""
-            
-            switch month {
-            case 1:
-                convertMonth = "Jan"
-            case 2:
-                convertMonth = "Feb"
-            case 3:
-                convertMonth = "Mar"
-            case 4:
-                convertMonth = "Apr"
-            case 5:
-                convertMonth = "May"
-            case 6:
-                convertMonth = "Jun"
-            case 7:
-                convertMonth = "Jul"
-            case 8:
-                convertMonth = "Aug"
-            case 9:
-                convertMonth = "Sep"
-            case 10:
-                convertMonth = "Oct"
-            case 11:
-                convertMonth = "Nov"
-            case 12:
-                convertMonth = "Dec"
-            default:
-                print("Error")
-            }
-            
-            let day = String(day)
-            let year = String(year)
-            let month = convertMonth
-            let convertYMDtoString = "\(month) \(day), \(year)"
-            
-            dateOfBirthDisplay.text = convertYMDtoString
-            
-        }
         
         return dateOfBirthDisplay
     }()
@@ -276,20 +234,22 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     @objc private func didTappedPhoneTxtField() -> Bool {
         if phoneNumTxtField.text?.isEmpty == false {
             print("phoneNumTxtField is Filled")
+            
             return true
         } else {
             print("phoneNumTxtField is not Filled")
+            
             return false
         }
     }
     
-    @objc private func validationOfBtn() {
-        if didTappedPhoneTxtField() == true && dateValueChange() == true {
-            signUpConfirmBtn.isSelected = true
-        } else if didTappedPhoneTxtField() == false {
-            signUpConfirmBtn.isSelected = false
-        }
-    }
+//    @objc private func validationOfBtn() {
+//        if didTappedPhoneTxtField() == true && dateValueChange() == true {
+//            signUpConfirmBtn.isSelected = true
+//        } else if didTappedPhoneTxtField() == false {
+//            signUpConfirmBtn.isSelected = false
+//        }
+//    }
     
     // MARK: - addDateOfBirthLabel()
     /// 생년월일 타이틀 레이블 Autolayout
@@ -377,14 +337,18 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     /// datePicker의 date가 바뀜에 따라 dateOfBirthDisplay의 text도 바뀌게 만드는 method
     @objc private func dateValueChange() -> Bool {
         
-            let datePickerDate = mainDatePicker.date
-            let dateValue = dateFormatter.string(from: datePickerDate)
+        let datePickerDate = mainDatePicker.date
+        let dateValue = dateFormatter.string(from: datePickerDate)
+        
+        if dateOfBirthDisplay.text != dateValue {
             dateOfBirthDisplay.text = dateValue
             print("date value changed")
-        
-        
-        return true
-        
+            
+            return true
+        } else {
+            
+            return false
+        }
     }
     
     
@@ -487,6 +451,8 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         signUpConfirmBtnLeading.isActive = true
         signUpConfirmBtnWidth.isActive = true
         signUpConfirmBtnHeight.isActive = true
+        
+       
     }
     
 //    private func phoneNumdataCheck() -> Bool {
@@ -497,15 +463,15 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
 //          }
 //      }
     
-    private func validationOfNumAndDate() -> Bool {
+    private func validationOfSignBtn() -> Bool {
         if didTappedPhoneTxtField() == true && dateValueChange() == true {
             
             print("btn validation return true")
-            
+            signUpConfirmBtn.isSelected = true
             return true
         } else {
             print("btn validation return false")
-            
+            signUpConfirmBtn.isSelected = false
             return false
         }
     }
