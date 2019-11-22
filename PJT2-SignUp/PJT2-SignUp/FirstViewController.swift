@@ -11,7 +11,7 @@ import UIKit
 class FirstViewController: UIViewController {
     
     static let naviVC = UINavigationController(rootViewController: SecondViewController())
-    let idTextField = UITextField()
+    static let idTextField = UITextField()
     let pwTextField = UITextField()
     let signInBtn = UIButton(type: .custom)
     let signUpBtn = UIButton(type: .custom)
@@ -19,7 +19,7 @@ class FirstViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        idTextField.text = UserInfomation.shared.id
+
     }
 
     override func viewDidLoad() {
@@ -79,33 +79,33 @@ class FirstViewController: UIViewController {
     
     private func addIdTextField() {
         
-        idTextField.translatesAutoresizingMaskIntoConstraints = false
+        FirstViewController.idTextField.translatesAutoresizingMaskIntoConstraints = false
         
-        self.view.addSubview(idTextField)
+        self.view.addSubview(FirstViewController.idTextField)
         
         let guide = view.safeAreaLayoutGuide
         
         let idTextFieldHeightValue = (view.bounds.size.height - (view.bounds.size.height - 34))
         
         let idTop: NSLayoutConstraint
-        idTop = idTextField.topAnchor.constraint(equalTo: titleImgView.bottomAnchor, constant: 20)
+        idTop = FirstViewController.idTextField.topAnchor.constraint(equalTo: titleImgView.bottomAnchor, constant: 20)
         
         let idLeading: NSLayoutConstraint
-        idLeading = idTextField.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 40)
+        idLeading = FirstViewController.idTextField.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 40)
         
         let idTrailing: NSLayoutConstraint
-        idTrailing = idTextField.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -40)
+        idTrailing = FirstViewController.idTextField.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -40)
         
         let idHeight: NSLayoutConstraint
-        idHeight = idTextField.heightAnchor.constraint(equalToConstant: idTextFieldHeightValue)
+        idHeight = FirstViewController.idTextField.heightAnchor.constraint(equalToConstant: idTextFieldHeightValue)
         
         idTop.isActive = true
         idLeading.isActive = true
         idTrailing.isActive = true
         idHeight.isActive = true
 
-        idTextField.placeholder = "ID"
-        idTextField.borderStyle = .roundedRect
+        FirstViewController.idTextField.placeholder = "ID"
+        FirstViewController.idTextField.borderStyle = .roundedRect
     }
     
     private func addPwTextField() {
@@ -119,7 +119,7 @@ class FirstViewController: UIViewController {
         let pwTextFieldHeightValue = (view.bounds.size.height - (view.bounds.size.height - 34))
         
         let pwTop: NSLayoutConstraint
-        pwTop = pwTextField.topAnchor.constraint(equalTo: idTextField.bottomAnchor, constant: 20)
+        pwTop = pwTextField.topAnchor.constraint(equalTo: FirstViewController.idTextField.bottomAnchor, constant: 20)
         
         let pwLeading: NSLayoutConstraint
         pwLeading = pwTextField.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 40)

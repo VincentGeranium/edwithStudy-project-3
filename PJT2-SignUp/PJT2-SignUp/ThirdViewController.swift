@@ -124,8 +124,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         addAllContentsWithCode()
         addAllConfigureWithCode()
         addAllDelegate()
-        actionOfaccordingToSignUpBtnState(signUpConfirmBtn)
-        
+//        actionOfaccordingToState(signUpConfirmBtn)
     }
     
     // MARK: - addAllContentsWithCode()
@@ -224,6 +223,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     
     @objc private func didTappedPhoneTxtField() {
         validationOfSignBtn()
+        actionOfaccordingToState(signUpConfirmBtn)
     }
     
     
@@ -317,6 +317,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         self.dateOfBirthDisplay.text = dateValue
         
         validationOfSignBtn()
+        actionOfaccordingToState(signUpConfirmBtn)
     }
     
     
@@ -421,9 +422,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         signUpConfirmBtnWidth.isActive = true
         signUpConfirmBtnHeight.isActive = true
         
-        
     }
-    
  
     private func phoneNumValidation() -> Bool {
         
@@ -473,18 +472,19 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         }
     }
     
-    private func actionOfaccordingToSignUpBtnState(_ sender: UIButton) {
-        if sender.state == UIControl.State.selected {
-            signUpConfirmBtn.addTarget(self, action: #selector(btnIsSelectedState), for: .touchUpInside)
+    private func actionOfaccordingToState(_ sender: UIButton) {
+        if validationOfSignBtn() == true {
+            sender.addTarget(self, action: #selector(btnIsSelectedState), for: .touchUpInside)
         } else {
-            print("some data is empty, all data must filled")
+            print("btn is not activated")
         }
     }
-    
+
     @objc private func btnIsSelectedState() {
         let secondVC = FirstViewController.naviVC
         UserInfomation.shared.phoneNumber = phoneNumTxtField.text
         UserInfomation.shared.dateOfBirth = dateOfBirthDisplay.text
+        FirstViewController.idTextField.text = UserInfomation.shared.id
         secondVC.dismiss(animated: true, completion: nil)
     }
     

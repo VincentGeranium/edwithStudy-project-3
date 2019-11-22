@@ -16,7 +16,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     let thirdVC = ThirdViewController()
     
     // MARK: - UINavigationController(rootViewController: SecondViewController())
-//    let secondVC = FirstViewController.naviVC
+    //    let secondVC = FirstViewController.naviVC
     
     // MARK: - secondVCImgView
     let secondVCImgView = UIImageView()
@@ -113,7 +113,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     private func naviConfigure() {
         let secondVC = FirstViewController.naviVC
-//        secondVC.navigationBar.isHidden = true
+        //        secondVC.navigationBar.isHidden = true
         secondVC.isNavigationBarHidden = true
     }
     
@@ -358,7 +358,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     // MARK: - addNextBtn
     private func addNextBtn() {
         
-//        actionOfaccordingToBtnState(nextBtn)
+        //        actionOfaccordingToBtnState(nextBtn)
         
         nextBtn.translatesAutoresizingMaskIntoConstraints = false
         
@@ -404,15 +404,11 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     @objc private func didTappedNextBtnWhenSelectState() {
         
         let secondVC = FirstViewController.naviVC
-        
         secondVC.pushViewController(thirdVC, animated: true)
-        
-        UserInfomation.shared.id = idTextField.text
-        UserInfomation.shared.password = checkPasswordTextField.text
         
         print("tapped When Select State Btn")
         
-       
+        
     }
     
     // MARK: - didTappedNextBtnWhenNormalState
@@ -489,7 +485,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
             nextBtn.isSelected = false
             return false
         }
-//        return false
+        //        return false
     }
     
     // MARK: - imageViewConfirm
@@ -503,15 +499,16 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
             nextBtn.isSelected = false
             return false
         }
-//        return false
+        //        return false
     }
     
     // MARK: - confirmDatas
     /// textFieldConfirm, textViewConfirm, imageViewConfirm가 모두 true를 리턴하면 nextBtn이 활성화되고 아닐 경우 비활성화 시킨다
     func confirmDatas() {
         if textFieldConfirm() == true && textViewConfirm(mainTextView) == true && imageViewConfirm(secondVCImgView) == true {
+            UserInfomation.shared.id = idTextField.text
+            UserInfomation.shared.password = checkPasswordTextField.text
             nextBtn.isSelected = true
-            
         } else {
             print("Error: check image, textfields, textview")
             nextBtn.isSelected = false
