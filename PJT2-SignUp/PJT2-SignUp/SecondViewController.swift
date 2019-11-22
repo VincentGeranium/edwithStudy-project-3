@@ -90,9 +90,6 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         view.backgroundColor = .white
         
-     
-       
-        
         tapGesture()
         AllDelegate()
         addViewsWithCodeInSecondVC()
@@ -409,6 +406,10 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         let secondVC = FirstViewController.naviVC
         
         secondVC.pushViewController(thirdVC, animated: true)
+        
+        UserInfomation.shared.id = idTextField.text
+        UserInfomation.shared.password = checkPasswordTextField.text
+        
         print("tapped When Select State Btn")
         
        

@@ -16,6 +16,11 @@ class FirstViewController: UIViewController {
     let signInBtn = UIButton(type: .custom)
     let signUpBtn = UIButton(type: .custom)
     let titleImgView = UIImageView()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        idTextField.text = UserInfomation.shared.id
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

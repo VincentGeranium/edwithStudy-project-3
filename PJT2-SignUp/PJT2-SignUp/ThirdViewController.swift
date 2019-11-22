@@ -108,6 +108,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     lazy var signUpConfirmBtn: UIButton = {
         let signUpConfirmBtn: UIButton = UIButton()
         signUpConfirmBtn.setTitle("가입", for: .normal)
+        signUpConfirmBtn.setTitle("가입", for: .selected)
         signUpConfirmBtn.setTitleColor(.blue, for: .selected)
         signUpConfirmBtn.setTitleColor(.lightGray, for: .normal)
         
@@ -123,7 +124,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         addAllContentsWithCode()
         addAllConfigureWithCode()
         addAllDelegate()
-        
+        actionOfaccordingToSignUpBtnState(signUpConfirmBtn)
         
     }
     
@@ -390,7 +391,8 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     }
     
     @objc private func didTappedGoBackBtn() {
-        
+        UserInfomation.shared.phoneNumber = phoneNumTxtField.text
+        UserInfomation.shared.dateOfBirth = dateOfBirthDisplay.text
         navigationController?.popViewController(animated: true)
     }
     
@@ -422,6 +424,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         
     }
     
+ 
     private func phoneNumValidation() -> Bool {
         
         if phoneNumTxtField.text?.isEmpty == false {
@@ -469,4 +472,20 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
             return false
         }
     }
+    
+    private func actionOfaccordingToSignUpBtnState(_ sender: UIButton) {
+        if sender.state == UIControl.State.selected {
+            signUpConfirmBtn.addTarget(self, action: #selector(btnIsSelectedState), for: .touchUpInside)
+        } else {
+            print("some data is empty, all data must filled")
+        }
+    }
+    
+    @objc private func btnIsSelectedState() {
+        let secondVC = FirstViewController.naviVC
+        UserInfomation.shared.phoneNumber = phoneNumTxtField.text
+        UserInfomation.shared.dateOfBirth = dateOfBirthDisplay.text
+        secondVC.dismiss(animated: true, completion: nil)
+    }
+    
 }
