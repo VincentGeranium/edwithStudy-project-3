@@ -23,6 +23,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     }()
     
     // MARK: - phoneNumTxtField
+    /// 전화번호 입력 텍스트 필드
     lazy var phoneNumTxtField: UITextField = {
         let phoneNumTxtField: UITextField = UITextField()
         phoneNumTxtField.borderStyle = .roundedRect
@@ -33,6 +34,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     }()
     
     // MARK: - dateOfBirthTitle
+    /// 생년월일 타이틀 레이블
     lazy var dateOfBirthTitle: UILabel = {
         let dateOfBirthTitle: UILabel = UILabel()
         dateOfBirthTitle.text = "생년월일"
@@ -43,32 +45,35 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         return dateOfBirthTitle
     }()
     
+    // MARK: - dateFormatter
     lazy var dateFormatter: DateFormatter = {
         let dateFormatter: DateFormatter = DateFormatter()
         dateFormatter.dateStyle = DateFormatter.Style.medium
         dateFormatter.timeStyle = DateFormatter.Style.none
+        
         return dateFormatter
     }()
     
-    lazy var myDateComponents: Calendar = {
-        let myDateComponents = Calendar(identifier: .gregorian)
-        return myDateComponents
-    }()
-    
+    // MARK: - defaultDate
+    /// 기본 날짜를 만들기 위한 데이트
     lazy var defaultDate: Date = {
         let defaultDate: Date = Date()
+        
         return defaultDate
     }()
     
+    // MARK: - myDefaultDate
+    /// 기본 날짜 데이트
     lazy var myDefaultDate: String = {
         let myDefaultDate = self.dateFormatter.string(from: self.defaultDate)
+        
         return myDefaultDate
     }()
     
     // MARK: - dateOfBirthDisplay
+    /// 실제 생년월일이 나타나는 레이블, 처음은 기본 날짜, 데이트 피커가 돌아가면 그에 맞춰서 날짜가 변함
     lazy var dateOfBirthDisplay: UILabel = {
         let dateOfBirthDisplay: UILabel = UILabel()
-        
         dateOfBirthDisplay.text = self.myDefaultDate
         dateOfBirthDisplay.textAlignment = .left
         dateOfBirthDisplay.textColor = .black
@@ -76,9 +81,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         
         return dateOfBirthDisplay
     }()
-    
-    
-    
+
     // MARK: - mainDatePicker
     lazy var mainDatePicker: UIDatePicker = {
         let mainDatePicker: UIDatePicker = UIDatePicker()
@@ -88,6 +91,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     }()
     
     // MARK: - cancelBtn
+    /// 취소버튼
     lazy var cancelBtn: UIButton = {
         let cancelBtn: UIButton = UIButton()
         cancelBtn.setTitle("취소", for: .normal)
@@ -97,14 +101,17 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     }()
     
     // MARK: - goBackBtn
+    /// 이전 버튼
     lazy var goBackBtn: UIButton = {
         let goBackBtn: UIButton = UIButton()
         goBackBtn.setTitle("이전", for: .normal)
         goBackBtn.setTitleColor(.blue, for: .normal)
+        
         return goBackBtn
     }()
     
     // MARK: - signUpConfirmBtn
+    /// 가입 버튼
     lazy var signUpConfirmBtn: UIButton = {
         let signUpConfirmBtn: UIButton = UIButton()
         signUpConfirmBtn.setTitle("가입", for: .normal)
@@ -115,7 +122,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         return signUpConfirmBtn
     }()
     
-    
+    // MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -124,7 +131,6 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         addAllContentsWithCode()
         addAllConfigureWithCode()
         addAllDelegate()
-//        actionOfaccordingToState(signUpConfirmBtn)
     }
     
     // MARK: - addAllContentsWithCode()
@@ -141,13 +147,17 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     }
     
     // MARK: - addAllConfigureWithCode()
+    /// Target-Action에 관련된 코드 모음
     private func addAllConfigureWithCode() {
         mainDatePickerConfigure()
         cancelBtnConfigure()
         goBackBtnConfigure()
         phoneNumTxtConfigure()
+        actionOfaccordingToState(signUpConfirmBtn)
     }
     
+    // MARK: - addAllDelegate()
+    /// 델리게이트 관련 코드
     private func addAllDelegate() {
         phoneNumTxtField.delegate = self
     }
@@ -155,9 +165,8 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     // MARK: - addPhoneNumTitle()
     /// 전화번호 레이블 Autolayout
     private func addPhoneNumTitle() {
-        phoneNumTitle.translatesAutoresizingMaskIntoConstraints = false
         
-        //        phoneNumTitle.backgroundColor = .green
+        phoneNumTitle.translatesAutoresizingMaskIntoConstraints = false
         
         let guide = view.safeAreaLayoutGuide
         
@@ -217,13 +226,16 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         phoneNumTxtHeight.isActive = true
     }
     
+    // MARK: - phoneNumTxtConfigure
+    /// 전화번호 텍스트 필드의 Target-Action
     private func phoneNumTxtConfigure() {
         phoneNumTxtField.addTarget(self, action: #selector(didTappedPhoneTxtField), for: .allEvents)
     }
     
+    // MARK: - didTappedPhoneTxtField
+    /// 전화번호 텍스트 필드의 모든 이벤트가 발생할때 가입버튼에 대한 Validation 과 가입 버튼 상태에 따른 각기 다른 액션이 나오게 만듦
     @objc private func didTappedPhoneTxtField() {
         validationOfSignBtn()
-        actionOfaccordingToState(signUpConfirmBtn)
     }
     
     
@@ -232,8 +244,6 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     private func addDateOfBirthLabel() {
         
         dateOfBirthTitle.translatesAutoresizingMaskIntoConstraints = false
-        
-        //        dateOfBirthTitle.backgroundColor = .lightGray
         
         let guide = view.safeAreaLayoutGuide
         
@@ -247,7 +257,6 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         
         let dateOfBirthWidth: NSLayoutConstraint
         dateOfBirthWidth = dateOfBirthTitle.widthAnchor.constraint(equalTo: phoneNumTxtField.widthAnchor, multiplier: 0.5)
-        
         
         dateOfBirthTop.isActive = true
         dateOfBirthLeading.isActive = true
@@ -308,7 +317,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     }
     
     // MARK: - dateValueChange
-    /// datePicker의 date가 바뀜에 따라 dateOfBirthDisplay의 text도 바뀌게 만드는 method
+    /// datePicker의 date가 바뀜에 따라 dateOfBirthDisplay의 text도 바뀌게 만듦, 그리고 가입 버튼 Validation 실행
     @objc private func dateValueChange() {
         let datePickerDate = mainDatePicker.date
         
@@ -317,9 +326,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         self.dateOfBirthDisplay.text = dateValue
         
         validationOfSignBtn()
-        actionOfaccordingToState(signUpConfirmBtn)
     }
-    
     
     // MARK: - addCancelBtn()
     /// CancelBtn Autolayout
@@ -356,7 +363,7 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
     }
     
     // MARK: - didTappedCancelBtn()
-    /// When didTapped cancel Btn, excute this code
+    /// When Tapped cancel Btn, excute this code
     @objc private func didTappedCancelBtn() {
         dismiss(animated: true, completion: nil)
     }
@@ -387,10 +394,14 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         goBackBtnHeight.isActive = true
     }
     
+    // MARK: - goBackBtnConfigure()
+    /// 이전 버튼 Target-Action
     private func goBackBtnConfigure() {
         goBackBtn.addTarget(self, action: #selector(didTappedGoBackBtn), for: .touchUpInside)
     }
     
+    // MARK: - didTappedGoBackBtn()
+    /// 이전 버튼을 눌렀을 때 전화번호와 생년월일이 Singleton을 이용하여 데이터를 저장하며 이전 뷰로 넘어감
     @objc private func didTappedGoBackBtn() {
         UserInfomation.shared.phoneNumber = phoneNumTxtField.text
         UserInfomation.shared.dateOfBirth = dateOfBirthDisplay.text
@@ -423,7 +434,31 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         signUpConfirmBtnHeight.isActive = true
         
     }
- 
+    
+    // MARK: - actionOfaccordingToState()
+    /// 가입 버튼 Target-Action, 가입버튼의 Validation이 true일때 Target-Action을 이용하여 가입 버튼의  활성화와 그에 따른 액션이 실행되게 만듦
+    private func actionOfaccordingToState(_ sender: UIButton) {
+        if validationOfSignBtn() == true {
+            sender.addTarget(self, action: #selector(btnIsSelectedState), for: .touchUpInside)
+        } else {
+            print("btn is not activated")
+        }
+    }
+    
+    // MARK: - btnIsSelectedState()
+    /// 가입버튼이 활성화 되었을 때 전화번호, 생년월일은 singleton으로 넘어가며 singleton에 저장되어 있던 id는 FirstViewController의 id 텍스트 필드의 텍스트로 할당해줌 그리고 이 뷰는 사라지게 만듦
+    @objc private func btnIsSelectedState() {
+        let secondVC = FirstViewController.naviVC
+        
+        UserInfomation.shared.phoneNumber = phoneNumTxtField.text
+        UserInfomation.shared.dateOfBirth = dateOfBirthDisplay.text
+        FirstViewController.idTextField.text = UserInfomation.shared.id
+        
+        secondVC.dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: - phoneNumValidation
+    /// 전화번호 텍스트 필드가 비어있을 때와  안비어있을 때에 따른 return 값을 다르게 줌
     private func phoneNumValidation() -> Bool {
         
         if phoneNumTxtField.text?.isEmpty == false {
@@ -437,6 +472,8 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         }
     }
     
+    // MARK: - dateOfBirthValidation
+    /// 데이트 피커의 동작에 따른 validation과 생년월일 레이블의 값이 변하게  만듦
     private func dateOfBirthValidation() -> Bool {
         
         let datePickerDate = mainDatePicker.date
@@ -444,13 +481,9 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         let dateValue = dateFormatter.string(from: datePickerDate)
         
         if self.myDefaultDate != dateValue && phoneNumTxtField.text?.isEmpty == false {
-            
             dateOfBirthDisplay.text = dateValue
-            
             print("date value changed")
-            
             return true
-            
         } else if self.myDefaultDate != dateValue && phoneNumTxtField.text?.isEmpty == true {
             return false
         } else if self .myDefaultDate == dateValue && phoneNumTxtField.text?.isEmpty == true {
@@ -459,9 +492,10 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
         return false
     }
     
+    // MARK: - validationOfSignBtn
+    /// 가입 버튼 Validation
     private func validationOfSignBtn() -> Bool {
         if phoneNumValidation() == true && dateOfBirthValidation() == true {
-            
             print("btn validation return true")
             signUpConfirmBtn.isSelected = true
             return true
@@ -471,21 +505,4 @@ class ThirdViewController: UIViewController,UITextFieldDelegate {
             return false
         }
     }
-    
-    private func actionOfaccordingToState(_ sender: UIButton) {
-        if validationOfSignBtn() == true {
-            sender.addTarget(self, action: #selector(btnIsSelectedState), for: .touchUpInside)
-        } else {
-            print("btn is not activated")
-        }
-    }
-
-    @objc private func btnIsSelectedState() {
-        let secondVC = FirstViewController.naviVC
-        UserInfomation.shared.phoneNumber = phoneNumTxtField.text
-        UserInfomation.shared.dateOfBirth = dateOfBirthDisplay.text
-        FirstViewController.idTextField.text = UserInfomation.shared.id
-        secondVC.dismiss(animated: true, completion: nil)
-    }
-    
 }

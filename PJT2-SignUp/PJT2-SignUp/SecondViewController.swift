@@ -113,7 +113,6 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     private func naviConfigure() {
         let secondVC = FirstViewController.naviVC
-        //        secondVC.navigationBar.isHidden = true
         secondVC.isNavigationBarHidden = true
     }
     
@@ -129,7 +128,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     // MARK: - textFieldShouldReturn
     /// Delegate 패턴을 이용하여 textField가 return 버튼이 눌릴때마다 FirstResponder가 idTextField -> passwordTextField -> checkPasswordTextField -> mainTextView 순으로 넘어가며 confirmDatas 메소드를 실행
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        ///
+        
         if idTextField.isFirstResponder == true {
             passwordTextField.becomeFirstResponder()
             actionOfaccordingToBtnState(nextBtn)
@@ -143,6 +142,7 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
             actionOfaccordingToBtnState(nextBtn)
             confirmDatas()
         }
+        
         // MARK: - confirmDatas in textFieldShouldReturn
         actionOfaccordingToBtnState(nextBtn)
         confirmDatas()
@@ -170,7 +170,6 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     // MARK: - addViewsWithCodeInSecondVC
-    
     private func addViewsWithCodeInSecondVC() {
         addSecondVCImgView()
         addIdTextField()
@@ -358,8 +357,6 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
     // MARK: - addNextBtn
     private func addNextBtn() {
         
-        //        actionOfaccordingToBtnState(nextBtn)
-        
         nextBtn.translatesAutoresizingMaskIntoConstraints = false
         
         let guide = view.safeAreaLayoutGuide
@@ -378,19 +375,16 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         let nextBtnBottom: NSLayoutConstraint
         nextBtnBottom = nextBtn.bottomAnchor.constraint(equalTo: guide.bottomAnchor)
         
-        
         nextBtnTop.isActive = true
         nextBtnTrailing.isActive = true
         nextBtnWidth.isActive = true
         nextBtnBottom.isActive = true
-        
-        //        print("\(view.bounds.size.width)")
-        
     }
     
     // MARK: - actionOfaccordingToBtnState
     /// 다음 버튼의 state에 따라 달라지는 액션
     func actionOfaccordingToBtnState(_ sender: UIButton) {
+        
         if sender.state == UIControl.State.normal {
             print("😀: \(nextBtn.state)")
             sender.addTarget(self, action: #selector(didTappedNextBtnWhenNormalState), for: .touchUpInside)
@@ -407,8 +401,6 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         secondVC.pushViewController(thirdVC, animated: true)
         
         print("tapped When Select State Btn")
-        
-        
     }
     
     // MARK: - didTappedNextBtnWhenNormalState
@@ -443,14 +435,12 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
         cancelBtnLeading.isActive = true
         cancelBtnWidth.isActive = true
         cancelBtnBottom.isActive = true
-        
     }
     
     // MARK: - didTappedCancelBtn
     /// 취소 버튼을 탭 했을 때
     @objc private func didTappedCancelBtn() {
         self.dismiss(animated: true, completion: nil)
-        
     }
     
     
@@ -485,7 +475,6 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
             nextBtn.isSelected = false
             return false
         }
-        //        return false
     }
     
     // MARK: - imageViewConfirm
@@ -499,7 +488,6 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
             nextBtn.isSelected = false
             return false
         }
-        //        return false
     }
     
     // MARK: - confirmDatas
@@ -514,6 +502,4 @@ class SecondViewController: UIViewController, UIImagePickerControllerDelegate, U
             nextBtn.isSelected = false
         }
     }
-    
-    
 }

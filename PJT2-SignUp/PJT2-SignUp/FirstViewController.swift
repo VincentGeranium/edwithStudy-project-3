@@ -40,6 +40,8 @@ class FirstViewController: UIViewController {
         
     }
     
+    // MARK: - addTitleImgView
+    /// 메인 이미지 뷰에 이미지 넣기와 오토레이아웃
     private func addTitleImgView() {
         
         guard let titleImg: UIImage = UIImage.init(named: "boostcourseImg") else {
@@ -74,9 +76,10 @@ class FirstViewController: UIViewController {
         titleImgHeight.isActive = true
         
         titleImgView.image = titleImg
-        
     }
     
+    // MARK: - addIdTextField
+    /// id를 넣는 텍스트 필드의 오토레이아웃
     private func addIdTextField() {
         
         FirstViewController.idTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -108,6 +111,8 @@ class FirstViewController: UIViewController {
         FirstViewController.idTextField.borderStyle = .roundedRect
     }
     
+    // MARK: - addPwTextField
+    /// Password 텍스트 필드 오토레이아웃
     private func addPwTextField() {
         
         pwTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -140,6 +145,8 @@ class FirstViewController: UIViewController {
         pwTextField.borderStyle = .roundedRect
     }
     
+    // MARK: - addSignInBtn
+    /// Sign In Button 오토레이아웃과 Target-Action
     private func addSignInBtn() {
         
         signInBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -172,14 +179,19 @@ class FirstViewController: UIViewController {
         signInBtnWidth.isActive = true
         signInBtnHeight.isActive = true
         
+        // MARK: - signInBtn Target-Action
         signInBtn.addTarget(self, action: #selector(didTappedSignInBtn(_:)), for: .touchUpInside)
         
     }
     
+    // MARK: - didTappedSignInBtn
+    /// Sign In Button을 눌렀을때 동작
     @objc  private func didTappedSignInBtn(_ sender: UIButton) {
         print("Sign In 버튼 정상 동작")
     }
     
+    // MARK: - addSignUpBtn
+    /// Sign Up Button 의 오토레이아웃과 Target-Action
     private func addSignUpBtn() {
         
         signUpBtn.translatesAutoresizingMaskIntoConstraints = false
@@ -208,10 +220,13 @@ class FirstViewController: UIViewController {
         signUpBtnWidth.isActive = true
         signUpBtnHeight.isActive = true
         
+        // MARK: - signUpBtn Target-Action
         signUpBtn.addTarget(self, action: #selector(didTappedSignUpBtn(_:)), for: .touchUpInside)
         
     }
     
+    // MARK: - didTappedSignUpBtn
+    /// Sign Up Button을 눌럿을때 동작
     @objc private func didTappedSignUpBtn(_ sender: UIButton) {
         
         let secondVC = FirstViewController.naviVC
